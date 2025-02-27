@@ -41,3 +41,80 @@ To use this script, you must have a valid Zoo API token. Follow these steps:
 3.  **Generate an API Token:**\
     Navigate to the API Tokens section in your account settings. Generate a new API token and copy it.\
     **Important:** Do not share your API token publicly or commit it to version control.
+
+Setting Up Your Environment
+---------------------------
+
+Before running the script, set your API token as an environment variable in your terminal. **Do not include your API token in this repository!**
+
+For example, in your terminal, run:
+
+bash
+
+CopyEdit
+
+`export ZOO_API_TOKEN="your-api-token-here"`
+
+> **Note:**\
+> You will need to set this each time you start a new terminal session.\
+> To make it permanent, add the above line to your shell configuration file (e.g., `~/.bashrc` or `~/.zshrc`).
+
+Usage
+-----
+
+1.  **Run the Script:**
+
+    bash
+
+    CopyEdit
+
+    `python textcad.py`
+
+2.  **Enter a Prompt:**\
+    When prompted, enter a description for the CAD model. For example:
+
+    csharp
+
+    CopyEdit
+
+    `Design a gear with 40 teeth`
+
+3.  **Output:**\
+    The script will submit your prompt to the API, poll for completion, and save the generated STL file using a filename derived from your prompt. For example, if you enter:
+
+    csharp
+
+    CopyEdit
+
+    `Design a gear with 40 teeth`
+
+    The output file will be saved as:
+
+    CopyEdit
+
+    `Design_a_gear_with_40_teeth.stl`
+
+Example
+-------
+
+If you enter the prompt:
+
+bash
+
+CopyEdit
+
+`Design a gear with 40 teeth`
+
+The output file will be saved as:
+
+bash
+
+CopyEdit
+
+`Design_a_gear_with_40_teeth.stl`
+
+Acknowledgements
+----------------
+
+-   [Zoo Text-to-CAD API](https://python.api.docs.zoo.dev)
+-   [KittyCAD Python Package](https://github.com/kittycad)   
