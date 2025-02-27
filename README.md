@@ -42,18 +42,14 @@ To use this script, you must have a valid Zoo API token. Follow these steps:
     Navigate to the API Tokens section in your account settings. Generate a new API token and copy it.\
     **Important:** Do not share your API token publicly or commit it to version control.
 
-Setting Up Your Environment
----------------------------
+## Setting Up Your Environment
 
 Before running the script, set your API token as an environment variable in your terminal. **Do not include your API token in this repository!**
 
 For example, in your terminal, run:
 
-bash
-
-CopyEdit
-
-`export ZOO_API_TOKEN="your-api-token-here"`
+```bash
+export ZOO_API_TOKEN="your-api-token-here"
 
 > **Note:**\
 > You will need to set this each time you start a new terminal session.\
