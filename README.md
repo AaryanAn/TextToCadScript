@@ -21,3 +21,23 @@ This repository contains a Python script (`textcad.py`) that demonstrates how to
    ```bash
    git clone https://github.com/AaryanAn/TextToCadScript.git
    cd TextToCadScript
+
+2. **Install Required Packages:**
+
+   ```bash
+   pip install kittycad
+
+Obtaining an API Key
+--------------------
+
+To use this script, you must have a valid Zoo API token. Follow these steps:
+
+1.  **Create an Account:**\
+    Sign up on Zoo's platform if you don't already have an account.
+
+2.  **Sign In:**\
+    Log in to your account.
+
+3.  **Generate an API Token:**\
+    Navigate to the API Tokens section in your account settings. Generate a new API token and copy it.\
+    **Important:** Do not share your API token publicly or commit it to version control.
