@@ -17,8 +17,6 @@ def sanitize_filename(prompt: str) -> str:
     spaces with underscores and removes characters that are not letters, numbers, 
     or underscores.
     """
-    # Remove leading/trailing whitespace, replace spaces with underscores,
-    # and remove any character that is not alphanumeric or underscore.
     safe = re.sub(r'[^a-zA-Z0-9_]', '', prompt.strip().replace(' ', '_'))
     return safe
 
@@ -27,15 +25,15 @@ def main():
     user_prompt = input("Enter your CAD prompt: ")
     
     # Create a safe file name from the prompt.
-    safe_filename = sanitize_filename(user_prompt) + ".stl"
+    safe_filename = sanitize_filename(user_prompt) + ".obj"
     
     # Create our client using the API token from the environment variable ZOO_API_TOKEN.
     client = ClientFromEnv()
 
-    # Submit the prompt to generate a CAD model in STL format.
+    # Submit the prompt to generate a CAD model in OBJ format.
     response = create_text_to_cad.sync(
         client=client,
-        output_format=FileExportFormat.STL,
+        output_format=FileExportFormat.OBJ,  # Change to OBJ format
         body=TextToCadCreateBody(
             prompt=user_prompt,
         ),
@@ -49,7 +47,7 @@ def main():
 
     # Poll until the CAD model generation is complete.
     while result.completed_at is None:
-        time.sleep(5)  # wait for 5 seconds before checking again
+        time.sleep(5)  # Wait for 5 seconds before checking again
         response = get_text_to_cad_model_for_user.sync(
             client=client,
             id=result.id,
@@ -71,8 +69,8 @@ def main():
         for name in result.outputs:
             print(f"  * {name}")
 
-        # Save the STL output to a file with the sanitized prompt as the file name.
-        final_result = result.outputs["source.stl"]
+        # Save the OBJ output to a file with the sanitized prompt as the file name.
+        final_result = result.outputs["source.obj"]  # Change to .obj
         with open(safe_filename, "wb") as output_file:
             output_file.write(final_result)
             print(f"Saved output to {output_file.name}")
