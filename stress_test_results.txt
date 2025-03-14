@@ -1,0 +1,128 @@
+Text-to-CAD Stress Test Results
+Test started on: 2025-03-10 02:41:34
+============================================================
+[2025-03-10 02:41:56] Prompt: Cup
+Status: Success
+Details: File saved as: stress_test_files2/Cup.stl
+--------------------------------------------------
+[2025-03-10 02:42:13] Prompt: Table
+Status: Success
+Details: File saved as: stress_test_files2/Table.stl
+--------------------------------------------------
+[2025-03-10 02:42:40] Prompt: Chair
+Status: Success
+Details: File saved as: stress_test_files2/Chair.stl
+--------------------------------------------------
+[2025-03-10 02:42:57] Prompt: Spoon
+Status: Success
+Details: File saved as: stress_test_files2/Spoon.stl
+--------------------------------------------------
+[2025-03-10 02:43:14] Prompt: Fork
+Status: Success
+Details: File saved as: stress_test_files2/Fork.stl
+--------------------------------------------------
+[2025-03-10 02:43:25] Prompt: Plate
+Status: Success
+Details: File saved as: stress_test_files2/Plate.stl
+--------------------------------------------------
+[2025-03-10 02:43:42] Prompt: Lamp
+Status: Success
+Details: File saved as: stress_test_files2/Lamp.stl
+--------------------------------------------------
+[2025-03-10 02:43:59] Prompt: Laptop Stand
+Status: Success
+Details: File saved as: stress_test_files2/Laptop_Stand.stl
+--------------------------------------------------
+[2025-03-10 02:44:16] Prompt: Phone Holder
+Status: Success
+Details: File saved as: stress_test_files2/Phone_Holder.stl
+--------------------------------------------------
+[2025-03-10 02:44:38] Prompt: Water Bottle
+Status: Success
+Details: File saved as: stress_test_files2/Water_Bottle.stl
+--------------------------------------------------
+[2025-03-10 02:44:49] Prompt: Simple Gear
+Status: Success
+Details: File saved as: stress_test_files2/Simple_Gear.stl
+--------------------------------------------------
+[2025-03-10 02:45:06] Prompt: Bolt
+Status: Success
+Details: File saved as: stress_test_files2/Bolt.stl
+--------------------------------------------------
+[2025-03-10 02:45:12] Prompt: Nut
+Status: Failed
+Details: Generation failed: Text-to-CAD server: 400 Bad Request. The prompt must clearly describe a CAD model.
+--------------------------------------------------
+[2025-03-10 02:45:34] Prompt: Washer
+Status: Success
+Details: File saved as: stress_test_files2/Washer.stl
+--------------------------------------------------
+[2025-03-10 02:46:01] Prompt: Hinge
+Status: Success
+Details: File saved as: stress_test_files2/Hinge.stl
+--------------------------------------------------
+[2025-03-10 02:46:18] Prompt: Lever
+Status: Success
+Details: File saved as: stress_test_files2/Lever.stl
+--------------------------------------------------
+[2025-03-10 02:47:01] Prompt: Pulley
+Status: Success
+Details: File saved as: stress_test_files2/Pulley.stl
+--------------------------------------------------
+[2025-03-10 02:47:17] Prompt: Fan Blade
+Status: Success
+Details: File saved as: stress_test_files2/Fan_Blade.stl
+--------------------------------------------------
+[2025-03-10 02:47:40] Prompt: Pipe Fitting
+Status: Success
+Details: File saved as: stress_test_files2/Pipe_Fitting.stl
+--------------------------------------------------
+[2025-03-10 02:47:56] Prompt: Bearing
+Status: Success
+Details: File saved as: stress_test_files2/Bearing.stl
+--------------------------------------------------
+[2025-03-10 02:48:13] Prompt: Plank 6x4 inches with four M4 screw holes in each corner with filleted edges
+Status: Success
+Details: File saved as: stress_test_files2/Plank_6x4_inches_with_four_M4_screw_holes_in_each_corner_with_filleted_edges.stl
+--------------------------------------------------
+[2025-03-10 02:48:30] Prompt: Metal bracket with three evenly spaced 10mm holes
+Status: Success
+Details: File saved as: stress_test_files2/Metal_bracket_with_three_evenly_spaced_10mm_holes.stl
+--------------------------------------------------
+[2025-03-10 02:48:57] Prompt: L-bracket with 1/4-inch mounting holes and a 45-degree support beam
+Status: Success
+Details: File saved as: stress_test_files2/Lbracket_with_14inch_mounting_holes_and_a_45degree_support_beam.stl
+--------------------------------------------------
+[2025-03-10 02:49:19] Prompt: Custom fan grille with circular venting pattern
+Status: Success
+Details: File saved as: stress_test_files2/Custom_fan_grille_with_circular_venting_pattern.stl
+--------------------------------------------------
+[2025-03-10 02:49:41] Prompt: 3D-printed hinge with built-in rotation stop
+Status: Success
+Details: File saved as: stress_test_files2/3Dprinted_hinge_with_builtin_rotation_stop.stl
+--------------------------------------------------
+[2025-03-10 02:49:58] Prompt: Adjustable height desk leg mount with screw slots
+Status: Success
+Details: File saved as: stress_test_files2/Adjustable_height_desk_leg_mount_with_screw_slots.stl
+--------------------------------------------------
+[2025-03-10 02:50:31] Prompt: Enclosure for Arduino Uno with precise cutouts
+Status: Success
+Details: File saved as: stress_test_files2/Enclosure_for_Arduino_Uno_with_precise_cutouts.stl
+--------------------------------------------------
+[2025-03-10 02:50:53] Prompt: Heat sink with 15 vertical fins spaced 2mm apart
+Status: Success
+Details: File saved as: stress_test_files2/Heat_sink_with_15_vertical_fins_spaced_2mm_apart.stl
+--------------------------------------------------
+[2025-03-10 02:51:10] Prompt: Bicycle pedal with anti-slip texture
+Status: Success
+Details: File saved as: stress_test_files2/Bicycle_pedal_with_antislip_texture.stl
+--------------------------------------------------
+[2025-03-10 02:51:27] Prompt: Mechanical coupling with hexagonal inner bore
+Status: Success
+Details: File saved as: stress_test_files2/Mechanical_coupling_with_hexagonal_inner_bore.stl
+--------------------------------------------------
+
+Stress Test Summary
+✅ Successful Generations: 29
+❌ Failed Generations: 1
+============================================================

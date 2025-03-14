@@ -1,0 +1,186 @@
+import os
+import time
+import re
+import pygame
+from pygame.locals import *
+from OpenGL.GL import *
+from OpenGL.GLU import *
+from stl import mesh
+import numpy as np
+
+from kittycad.api.ml import create_text_to_cad, get_text_to_cad_model_for_user
+from kittycad.client import ClientFromEnv
+from kittycad.models import (
+    ApiCallStatus,
+    Error,
+    FileExportFormat,
+    TextToCad,
+    TextToCadCreateBody,
+)
+
+# Constants
+WIDTH, HEIGHT = 800, 600
+FONT_SIZE = 32
+BG_COLOR = (30, 30, 30)
+TEXT_COLOR = (255, 255, 255)
+PROMPT_BOX_COLOR = (50, 50, 50)
+
+# Ensure "cad_files" directory exists
+os.makedirs("cad_files", exist_ok=True)
+
+def sanitize_filename(prompt: str) -> str:
+    """ Convert the input prompt into a safe file name. """
+    safe = re.sub(r'[^a-zA-Z0-9_]', '', prompt.strip().replace(' ', '_'))
+    return safe
+
+def generate_cad_model(prompt):
+    """ Submits a text prompt to the API to generate a CAD model and returns the STL file path. """
+    client = ClientFromEnv()
+    safe_filename = f"cad_files/{sanitize_filename(prompt)}.stl"
+
+    response = create_text_to_cad.sync(
+        client=client,
+        output_format=FileExportFormat.STL,
+        body=TextToCadCreateBody(prompt=prompt),
+    )
+
+    if isinstance(response, Error) or response is None:
+        return None, f"Error: {response}"
+
+    result: TextToCad = response
+
+    # Poll until the CAD model generation is complete
+    while result.completed_at is None:
+        time.sleep(5)
+        response = get_text_to_cad_model_for_user.sync(client=client, id=result.id)
+        if isinstance(response, Error) or response is None:
+            return None, f"Error: {response}"
+        result = response
+
+    if result.status == ApiCallStatus.FAILED:
+        return None, f"Text-to-CAD failed: {result.error}"
+    
+    if result.outputs is None:
+        return None, "Text-to-CAD completed but returned no files."
+
+    # Save STL file
+    final_result = result.outputs["source.stl"]
+    with open(safe_filename, "wb") as output_file:
+        output_file.write(final_result)
+
+    return safe_filename, None
+
+def load_stl_model(stl_filename):
+    """ Load an STL mesh for rendering. """
+    return mesh.Mesh.from_file(stl_filename)
+
+def compute_model_scale_and_position(stl_mesh):
+    """ Compute the bounding box, center, and optimal camera distance. """
+    min_corner = np.min(stl_mesh.points.reshape(-1, 3), axis=0)
+    max_corner = np.max(stl_mesh.points.reshape(-1, 3), axis=0)
+
+    center = (min_corner + max_corner) / 2
+    size = np.linalg.norm(max_corner - min_corner)  # Diagonal size of bounding box
+
+    optimal_distance = size * 1.5  # Adjust for better visibility
+
+    return center, optimal_distance
+
+def draw_mesh(stl_mesh):
+    """ Render the STL mesh using OpenGL. """
+    glBegin(GL_TRIANGLES)
+    for i, triangle in enumerate(stl_mesh.vectors):
+        glNormal3fv(stl_mesh.normals[i])
+        for vertex in triangle:
+            glVertex3fv(vertex)
+    glEnd()
+
+def render_stl(stl_filename):
+    """ Opens a Pygame window and renders the STL model. """
+    stl_mesh = load_stl_model(stl_filename)
+    center, optimal_distance = compute_model_scale_and_position(stl_mesh)
+
+    pygame.init()
+    screen = pygame.display.set_mode((WIDTH, HEIGHT), DOUBLEBUF | OPENGL)
+    pygame.display.set_caption("3D Model Viewer")
+
+    # Set perspective projection
+    gluPerspective(45, (WIDTH / HEIGHT), 0.1, optimal_distance * 3.0)
+    glTranslatef(-center[0], -center[1], -optimal_distance)  # Move camera back
+
+    clock = pygame.time.Clock()
+
+    while True:
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                pygame.quit()
+                return
+
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+        glRotatef(1, 3, 1, 1)  # Apply continuous rotation
+        draw_mesh(stl_mesh)
+        pygame.display.flip()
+        clock.tick(60)
+
+def get_user_prompt():
+    """ Opens a Pygame window to prompt the user for a text input. """
+    pygame.init()
+    screen = pygame.display.set_mode((WIDTH, HEIGHT))
+    pygame.display.set_caption("Enter CAD Prompt")
+    font = pygame.font.Font(None, FONT_SIZE)
+    user_text = ""
+    input_active = True
+
+    while input_active:
+        screen.fill(BG_COLOR)
+
+        # Render prompt text
+        prompt_text = font.render("Enter your CAD prompt:", True, TEXT_COLOR)
+        screen.blit(prompt_text, (20, 50))
+
+        # Render input box
+        pygame.draw.rect(screen, PROMPT_BOX_COLOR, (20, 100, WIDTH - 40, 40), border_radius=5)
+
+        # Render user input
+        text_surface = font.render(user_text, True, TEXT_COLOR)
+        screen.blit(text_surface, (30, 110))
+
+        pygame.display.flip()
+
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                pygame.quit()
+                exit()
+
+            if event.type == KEYDOWN:
+                if event.key == K_RETURN:
+                    input_active = False  # Submit the prompt
+                elif event.key == K_BACKSPACE:
+                    user_text = user_text[:-1]  # Remove last character
+                else:
+                    user_text += event.unicode  # Add character
+
+    pygame.quit()
+    return user_text.strip()
+
+def main():
+    """ Main function to handle user input, generate a model, and display it. """
+    user_prompt = get_user_prompt()
+
+    if not user_prompt:
+        print("No prompt entered. Exiting.")
+        return
+
+    print(f"Generating CAD model for: {user_prompt}")
+
+    stl_filename, error = generate_cad_model(user_prompt)
+
+    if error:
+        print(error)
+        return
+
+    print(f"Model saved as {stl_filename}")
+    render_stl(stl_filename)
+
+if __name__ == "__main__":
+    main()
